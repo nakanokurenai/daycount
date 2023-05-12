@@ -1,0 +1,52 @@
+<html>
+<head>
+  <title>曜日カウンター</title>
+  <meta charset="utf-8">
+  <script src="./main.js"></script>
+</head>
+<body>
+  <header>
+    <h1>曜日カウンター</h1>
+    <p id="notice">Loading…</p>
+  </header>
+  <main id="main" style="display: none;">
+    <form id="form" onsubmit="return false">
+      <label>開始日:
+        <input type="date" name="start" value="2023-04-10"></input>
+      </label>
+      <label>終了日:
+        <input type="date" name="end"></input>
+      </label>
+      <label>除外方法:
+        <select name="rule">
+          <option value="holiday_jp" default>日本の祝日</option>
+        </select>
+      </label>
+      <button>数える</button>
+    </form>
+    <table>
+      <thead><tr>
+        <th>月</th>
+        <th>火</th>
+        <th>水</th>
+        <th>木</th>
+        <th>金</th>
+        <th>土</th>
+        <th>日</th>  
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td id="月">-</td>
+          <td id="火">-</td>
+          <td id="水">-</td>
+          <td id="木">-</td>
+          <td id="金">-</td>
+          <td id="土">-</td>
+          <td id="日">-</td>
+        </tr>
+      </tbody>
+    </table>
+    <pre id="log"></pre>
+  </main>
+</body>
+</html>

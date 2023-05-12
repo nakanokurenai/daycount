@@ -10,4 +10,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: check updates
-        run: curl -s https://www8.cao.go.jp/chosei/shukujitsu/syukujitsu.csv  | iconv -f shift_jis -t utf-8 | diff - ./syukujitsu.csv
+        run: curl -s https://www8.cao.go.jp/chosei/shukujitsu/syukujitsu.csv  | iconv -f shift_jis -t utf-8 | diff - ./public/syukujitsu.csv
