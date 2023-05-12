@@ -20,9 +20,8 @@ const fetchSyukujitsu = async () => {
     .map(([ d, n ]) => [ new Date(`${d}T09:00:00Z`), n ])
 }
 
-const RULES = ["holiday_jp"]
 /**
- * @type {Record<string, (start: Date, end: Date, days: number[]) => void>}
+ * @type {Record<string, (start: Date, end: Date, days: number[]) => Promise<number[]>>}
  */
 const RULE_PROCESSORS = {
   "holiday_jp": async (start, end, days) => {
@@ -34,11 +33,11 @@ const RULE_PROCESSORS = {
       }
     }
     log(days)
-    daysElement().forEach((e, i) => {
-      e.innerText = days[i]
-    })
-  }
+    return days
+  },
+  "plain": async (_, __, days) => days
 }
+const RULES = Object.keys(RULE_PROCESSORS)
 
 const log = (text) => {
   const log = [`[${(new Date()).toISOString()}] ${text}`, $("#log").innerText].filter(t => t && t.trim().length).join("\n")
@@ -47,22 +46,12 @@ const log = (text) => {
 
 
 function scriptMain() {
-  let defers = []
-  defers.push(() => {
-    $("#notice").textContent = "LET’S GO!!!!!!!"
-  })
-
-  scriptBody((f) => defers.push(f))
-
-  for (const f of defers) {
-    f()
-  }
+  scriptBody()
+  $("#loading").style.display = "none"
 }
 
-const yearmonthkey = (d) => ((d.getFullYear() << 4) + d.getMonth())
-
-const scriptBody = (defer) => {
-  $("#main").style = ""
+const scriptBody = () => {
+  $("#main").style.display = ""
   const calc = (form) => {
     const start = form.elements["start"].valueAsDate
     const end = form.elements["end"].valueAsDate || new Date()
@@ -97,11 +86,20 @@ const scriptBody = (defer) => {
       .map((_,i) => (start.getDay() <= i && i <= end.getDay()) || (end.getDay() <= i && i <= start.getDay()) ? Math.ceil(days/7) : Math.floor(days/7))
     log(`${days} 日, [${dow}] (${dow.reduce((a,b) => a+b, 0)})`)
 
-    RULE_PROCESSORS[rule](start, end, dow)
+    RULE_PROCESSORS[rule](start, end, dow).then(days => daysElement().forEach((e, i) => {
+      e.innerText = days[i]
+    }))
   }
   $("#form").addEventListener("submit", (ev) => {
     calc(ev.target)
     return false
+  })
+  $("#showlog").addEventListener("click", (ev) => {
+    if (ev.target.checked) {
+      $("#log").style.display = ""
+    } else {
+      $("#log").style.display = "none"
+    }
   })
   calc($("#form"))
 }

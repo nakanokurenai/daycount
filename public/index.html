@@ -2,14 +2,17 @@
 <head>
   <title>曜日カウンター</title>
   <meta charset="utf-8">
+  <meta name=viewport content="width=device-width,initial-scale=1">
+  <meta name=robots content="noindex, nofollow">
   <script src="./main.js"></script>
 </head>
 <body>
   <header>
     <h1>曜日カウンター</h1>
-    <p id="notice">Loading…</p>
+    <a href="https://github.com/nakanokurenai/daycount">GitHub</a>
+    <p id="loading">Loading…</p>
   </header>
-  <main id="main" style="display: none;">
+  <main id="main" style="display: none; margin-top: 16px;">
     <form id="form" onsubmit="return false">
       <label>開始日:
         <input type="date" name="start" value="2023-04-10"></input>
@@ -20,6 +23,7 @@
       <label>除外方法:
         <select name="rule">
           <option value="holiday_jp" default>日本の祝日</option>
+          <option value="plain">なし</option>
         </select>
       </label>
       <button>数える</button>
@@ -46,7 +50,16 @@
         </tr>
       </tbody>
     </table>
-    <pre id="log"></pre>
+    <section style="margin-top: 16px;">
+      <label>
+        <input type="checkbox" id="showlog" />
+        ログを表示する
+      </label>
+      <pre id="log" style="display:none;"></pre>
+    </section>
   </main>
+  <footer>
+    <p>(c) 2023 nakanokurenai</p>
+  </footer>
 </body>
 </html>
