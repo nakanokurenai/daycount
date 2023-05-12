@@ -8,7 +8,7 @@ const reset = () => daysElement().forEach(e => { e.innerText = "-" })
 var syukujitsuCSV;
 const fetchSyukujitsu = async () => {
   if (!syukujitsuCSV) {
-    syukujitsuCSV = await fetch("/syukujitsu.csv").then(r => {
+    syukujitsuCSV = await fetch("syukujitsu.csv").then(r => {
       if (!r.ok) throw new Error("not ok")
       return r.text()
     }).catch(r => { log(`failed to fetch syukujitsu.csv: ${r}`); throw r })
