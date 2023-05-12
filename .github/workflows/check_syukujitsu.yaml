@@ -1,0 +1,13 @@
+name: 祝日チェッカー
+on:
+  push: null
+  schedule:
+    - cron: '0 */24 * * *'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: check updates
+        run: curl -s https://www8.cao.go.jp/chosei/shukujitsu/syukujitsu.csv  | iconv -f shift_jis -t utf-8 | diff - ./syukujitsu.csv
